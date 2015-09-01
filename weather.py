@@ -49,19 +49,19 @@ class WeatherBase(object):
         """
             Return all data of a country
         """
-        if country.decode('utf-8') not in self.show_avail_country():
+        if country not in self.show_avail_country():
             return None
 
-        return self._data[country.decode('utf-8')]
+        return self._data[country]
 
     def get_column_data_by_country(self, country, column):
         """
             Return specific data of a country
         """
-        if country.decode('utf-8') not in self.show_avail_country() or column not in self.show_avail_column(country):
+        if country not in self.show_avail_country() or column not in self.show_avail_column(country):
             return None
 
-        return self._data[country.decode('utf-8')][column]
+        return self._data[country][column]
 
     def show_avail_country(self):
         """
@@ -73,7 +73,7 @@ class WeatherBase(object):
         """
             Return a list of avaliable column.
         """
-        return self._data[country.decode('utf-8')].keys()
+        return self._data[country].keys()
 
     def trans_column(self, lang, column):
         """
@@ -126,7 +126,7 @@ class WeatherObservation(WeatherBase):
                 try:
                         loc_data.setdefault(column, value)
                 except Exception as e:
-                    print e
+                    raise e
             self._data.setdefault(child.find(prefix + 'locationName').text, loc_data)
 
     def __repr__(self):
